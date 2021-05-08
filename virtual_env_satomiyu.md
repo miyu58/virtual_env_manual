@@ -52,11 +52,11 @@ config.vm.synced_folder "./", "/vagrant", type:”virtualbox”
 
 - viエディタで下記内容追加  
 
-`　[nginx]
-name=nginx repo  
+[nginx]    
+name=nginx repo      
 baseurl=https://nginx.org/packages/mainline/centos/\$releasever/\$basearch/  
 gpgcheck=0  
-enabled=1`  
+enabled=1  
 
 `$ sudo yum install -y nginx`#インストール    
 `$ nginx -v`#バージョン確認  
@@ -65,19 +65,19 @@ enabled=1`
 ### Nginxファイル編集  
 `$ sudo vi /etc/nginx/conf.d/default.conf`  
   
-`location / {  
-        #root   /usr/share/nginx/html; ＃コメントアウト  
+location / {  
+        #root  /usr/share/nginx/html; ＃コメントアウト  
         #index  index.html index.htm; ＃コメントアウト  
         try_files $uri $uri/ /index.php$is_args$args; ＃追加  
-    }`  
+    }  
 
-`location ~ \.php$ {  
+location ~ \.php$ {  
     #    root           html; ＃コメントアウトのまま  
          fastcgi_pass   127.0.0.1:9000;  
          fastcgi_index  index.php;  
          fastcgi_param  SCRIPT_FILENAME  /$document_root/$fastcgi_script_name; ＃/$document_root/へ変更  
          include        fastcgi_params;  
-     }`  
+     }  
 
 ### php-fpmファイル編集  
 `$ sudo vi /etc/php-fpm.d/www.conf`  
@@ -125,11 +125,11 @@ enabled=1`
 `$ php artisan migrate`  
 
 
-##  Laravelログイン機能  
+###  Laravelログイン機能  
 `$ composer require laravel/ui "^1.0" —dev`  
 `$ php artisan ui vue —auth`  
 
-### 画面表示確認  
+##### 画面表示確認  
 
 
 *****
