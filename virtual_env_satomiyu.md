@@ -23,14 +23,14 @@
 ```    
    コメント外す箇所
 ```sehll
-   config.vm.network "forwarded_port", guest: 80, host: 1234  
-   config.vm.network "private_network", ip: “192.168.33.19"  
+ config.vm.network "forwarded_port", guest: 80, host: 1234  
+ config.vm.network "private_network", ip: “192.168.33.19"  
 ```
    コメントのまま変更
 ```sehll
-   config.vm.synced_folder “../data”, “/vagrant_data”  
-    下記へ変更  
-   config.vm.synced_folder "./", "/vagrant", type:”virtualbox”  
+ config.vm.synced_folder “../data”, “/vagrant_data”  
+ 下記へ変更  
+ config.vm.synced_folder "./", "/vagrant", type:”virtualbox”  
 ```  
 
 ### VagrantゲストOS起動  
