@@ -12,48 +12,49 @@
 ## 環境構築    
 ### Vagrant作業ディレクトリ作成  
 ```shell  
- $ mkdir vagrant_env    
+ $ mkdir vagrant_env     
  $ cd vagrant_env ディレクトリ移動    
  $ vagrant init centos/7 vagrant init box名    
 ```  
 
 ### Vagrantfile編集  
 ```shell
- $ vi Vgrantfile    
+ $ vi Vagrantfile    
 ```    
-   コメント外す箇所
-```sehll
+   Vagrantfileから下記の記述を探してコメント外してください。  
+```vagrantfile
  config.vm.network "forwarded_port", guest: 80, host: 1234  
- config.vm.network "private_network", ip: “192.168.33.19"  
+ config.vm.network "private_network", ip: “192.168.33.19" ipアドレス指定:192.168.33.19  
 ```
-   コメントのまま変更
-```sehll
+   さらに下記の記述を探しコメントのまま変更してください。  
+```vagrantfile
  config.vm.synced_folder “../data”, “/vagrant_data”  
- 下記へ変更  
+ 上記の記述を以下へ変更してください。  
  config.vm.synced_folder "./", "/vagrant", type:”virtualbox”  
 ```  
 
 ### VagrantゲストOS起動  
 ```shell 
- $ vagrant up    
- $vagrant ssh    
+ $ vagrant up  
+ $ vagrant ssh  
 ```  
 
 ### パッケージインストール  
-```sehll
- $ sudo yum -y groupinstall "development tools”    
+```shell
+ $ sudo yum -y groupinstall "development tools”  
 ```  
 
 ### PHPインストール  
 ```shell
- $ sudo yum -y install epel-release wget    
+ $ sudo yum -y install epel-release wget  
  $ sudo wget http://rpms.famillecollet.com/enterprise/remi-release-7.rpm  
+ PHPバージョンを指定してインストール（今回はPHP7.3）  
  $ sudo yum -y install --enablerepo=remi-php73 php php-pdo php-mysqlnd php-mbstring php-xml php-fpm php-common php-devel php-mysql unzip  
 ```  
 
 ### composerインストール  
 ```shell
- $ php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"   
+ $ php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"  
  $ php composer-setup.php  
  $ php -r "unlink('composer-setup.php');"  
 ```  
@@ -64,11 +65,11 @@
  $ composer -v  
 ```  
 ### Nginxインストール  
-```sehll
+```shell
  $ sudo vi /etc/yum.repos.d/nginx.repo  
 ```
 
- - viエディタで下記内容追加  
+ - viエディタでnginx.repoに下記内容追加  
 ```shell
   [nginx]    
  name=nginx repo      
@@ -85,6 +86,7 @@
 ```shell
  $ sudo vi /etc/nginx/conf.d/default.conf  
 
+  以下を編集  
   location / {  
           #root  /usr/share/nginx/html; コメントアウト  
           #index  index.html index.htm; コメントアウト  
@@ -103,11 +105,11 @@
 ### php-fpmファイル編集  
 ```shell
  $ sudo vi /etc/php-fpm.d/www.conf  
- $ ＄ sudo chmod -R 777 storage 書き込み権限付与  
+ $ sudo chmod -R 777 storage 書き込み権限付与  
 ```
 
 ### laravel6インストール  
-```sehll
+```shell
  $ composer create-project --prefer-dist laravel/laravel todo_app "6.*"  
 ```  
 
@@ -121,6 +123,7 @@
 - パスワード設定変更  
 ```shell
  $ sudo vi /etc/my.cnf  
+ 以下を編集  
  validate-password=OFF 追加  
 
 - mysql再起動  
@@ -128,6 +131,7 @@
 
 - 現在のパスワード取得  
  $ sudo cat /var/log/mysqld.log | grep 'temporary password'  
+ 上記コマンド実行後`root@localhost: password`のpassword部分をコピーしておく  
 
 - mysqlにログイン  
  $ sudo systemctl start mysqld  
@@ -139,12 +143,12 @@
 ```
 
 ### データベース作成  
-```sehll
+```sql
  mysql > create database todo-app;  
 ```
 
 ### laravelの.envファイル編集  
-```sehll
+```shell
  $ vi .env  
 
 - 作成したデータベース名に変更
@@ -157,15 +161,22 @@
  $ php artisan migrate  
 ```
 
+### 画面表示確認    
+  ブラウザURLに`http://192.168.33.19`入力しアクセス  
+  Laravel画面が表示されてていればOK  
 
 ###  Laravelログイン機能  
-```sehll
+```shell
+ laravel/uiパッケージ
  $ composer require laravel/ui "^1.0" —dev  
+
+ 認証に必要なviewを作成  
  $ php artisan ui vue —auth  
 ```
 
-*画面表示確認*  
-
+### ログイン機能が実装されているか確認    
+  ブラウザURLに再度`http://192.168.33.19`入力しアクセス  
+  Laravel画面の右上にloginとregisterが表示されていればOK    
 
 *****
 ## 環境構築の所感  
