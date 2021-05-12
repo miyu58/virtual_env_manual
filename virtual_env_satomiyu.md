@@ -63,7 +63,9 @@
 ```shell 
  $ sudo mv composer.phar /usr/local/bin/composer  
  $ composer -v  
+ composerのバージョンが確認できたらOK  
 ```  
+
 ### Nginxインストール  
 ```shell
  $ sudo vi /etc/yum.repos.d/nginx.repo  
@@ -77,6 +79,7 @@
  gpgcheck=0  
  enabled=1  
 ```
+ - 実際にNginxをインストールしていきます
 ```shell
  $ sudo yum install -y nginx インストール  
  $ nginx -v バージョン確認  
@@ -105,7 +108,19 @@
 ### php-fpmファイル編集  
 ```shell
  $ sudo vi /etc/php-fpm.d/www.conf  
- $ sudo chmod -R 777 storage 書き込み権限付与  
+```  
+ - www.confファイルの24行目近辺user/groupの値を変更する  
+```
+   user = apache  
+   以下に編集  
+   user = nginx  
+  
+   group = apache  
+   以下に編集  
+   group = nginx  
+```
+ - 書き込み権限付与    
+ $ sudo chmod -R 777 storage  
 ```
 
 ### laravel6インストール  
@@ -119,6 +134,7 @@
  $ sudo rpm -Uvh mysql57-community-release-el7-7.noarch.rpm  
  $ sudo yum install -y mysql-community-server  
  $ mysql --version  
+ バージョン確認できたらOK  
 ```
 - パスワード設定変更  
 ```shell
