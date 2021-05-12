@@ -109,7 +109,7 @@
 ```shell
  $ sudo vi /etc/php-fpm.d/www.conf  
 ```  
- - www.confファイルの24行目近辺user/groupの値を変更する  
+ - 上記ファイル24行目付近のuser/groupの値を変更する  
 ```
    user = apache  
    以下に編集  
@@ -119,7 +119,8 @@
    以下に編集  
    group = nginx  
 ```
- - 書き込み権限付与    
+ - 書き込み権限付与  
+```shell
  $ sudo chmod -R 777 storage  
 ```
 
@@ -163,7 +164,7 @@
  mysql > create database todo-app;  
 ```
 
-### laravelの.envファイル編集  
+### Laravelの.envファイル編集  
 ```shell
  $ vi .env  
 
